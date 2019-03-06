@@ -1,0 +1,2 @@
+# SpringBootTrainning
+Get familiar SpringBoot
