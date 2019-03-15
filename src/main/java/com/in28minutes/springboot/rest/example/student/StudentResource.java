@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,7 +29,7 @@ public class StudentResource {
 		return studentRepository.findAll();
 	}
 
-	@GetMapping("/students/{id}")
+	@GetMapping("/students/{id}")  
 	public Student retrieveStudent(@PathVariable long id) {
 		Optional<Student> student = studentRepository.findById(id);
 
@@ -53,17 +56,21 @@ public class StudentResource {
 	}
 	
 	@PutMapping("/students/{id}")
-	public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable long id) {
+	public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable long id){
 
 		Optional<Student> studentOptional = studentRepository.findById(id);
 
-		if (!studentOptional.isPresent())
+		if (!studentOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
+		}
+		
 
 		student.setId(id);
 		
 		studentRepository.save(student);
 
 		return ResponseEntity.noContent().build();
+		
 	}
+	
 }
